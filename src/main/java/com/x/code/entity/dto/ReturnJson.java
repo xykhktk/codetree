@@ -1,10 +1,12 @@
 package com.x.code.entity.dto;
 
+import java.util.HashMap;
+
 public class ReturnJson {
 
     private String code;
     private String message;
-    private Object data;
+    private HashMap<String, Object> data;
     private Boolean success;
 
     public String getCode() {
@@ -23,11 +25,11 @@ public class ReturnJson {
         this.message = message;
     }
 
-    public Object getData() {
+    public HashMap<String, Object> getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(HashMap<String, Object> data) {
         this.data = data;
     }
 
@@ -58,12 +60,12 @@ public class ReturnJson {
         returnJson.setCode("200");
         returnJson.setMessage(message);
         returnJson.setSuccess(true);
+        returnJson.setData(new HashMap<>());
         return  returnJson;
     }
 
-    public static ReturnJson success(String message, Object data){
-        ReturnJson returnJson = ReturnJson.success(message);
-        returnJson.setData(data);
-        return  returnJson;
+    public ReturnJson putData(String key, Object value) {
+        data.put(key, value);
+        return this;
     }
 }

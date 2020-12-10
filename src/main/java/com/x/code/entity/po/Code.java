@@ -1,15 +1,12 @@
 package com.x.code.entity.po;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Code {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(nullable = false)
     private String codeDefine;
@@ -17,6 +14,8 @@ public class Code {
     private String codeItem;
     @Column(nullable = false)
     private Long parentId;
+    @Column(nullable = false)
+    private Byte isDel;
 
     public Long getId() {
         return id;
@@ -48,5 +47,13 @@ public class Code {
 
     public void setParentId(Long parentId) {
         this.parentId = parentId;
+    }
+
+    public Byte getIsDel() {
+        return isDel;
+    }
+
+    public void setIsDel(Byte isDel) {
+        this.isDel = isDel;
     }
 }
