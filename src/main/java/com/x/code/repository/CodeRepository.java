@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface CodeRepository extends JpaRepository<Code,Long> {
 
-    List<Code> findByIsDel(Long isDel);
+    List<Code> findByIsDel(Byte isDel);
 
     @Modifying
     @Query("update Code c set c.isDel = 1 where  c.id=?1")

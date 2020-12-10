@@ -9,6 +9,26 @@ public class ReturnJson {
     private HashMap<String, Object> data;
     private Boolean success;
 
+    public static ReturnJson error(String message, String code){
+        ReturnJson returnJson = ReturnJson.error(message);
+        returnJson.setCode(code);
+        return  returnJson;
+    }
+
+    public static ReturnJson success(String message){
+        ReturnJson returnJson = new ReturnJson();
+        returnJson.setCode("200");
+        returnJson.setMessage(message);
+        returnJson.setSuccess(true);
+        returnJson.setData(new HashMap<>());
+        return  returnJson;
+    }
+
+    public ReturnJson putData(String key, Object value) {
+        data.put(key, value);
+        return this;
+    }
+
     public String getCode() {
         return code;
     }
@@ -46,26 +66,7 @@ public class ReturnJson {
         returnJson.setCode("400");
         returnJson.setMessage(message);
         returnJson.setSuccess(false);
-        return  returnJson;
-    }
-
-    public static ReturnJson error(String message, String code){
-        ReturnJson returnJson = ReturnJson.error(message);
-        returnJson.setCode(code);
-        return  returnJson;
-    }
-
-    public static ReturnJson success(String message){
-        ReturnJson returnJson = new ReturnJson();
-        returnJson.setCode("200");
-        returnJson.setMessage(message);
-        returnJson.setSuccess(true);
         returnJson.setData(new HashMap<>());
         return  returnJson;
-    }
-
-    public ReturnJson putData(String key, Object value) {
-        data.put(key, value);
-        return this;
     }
 }

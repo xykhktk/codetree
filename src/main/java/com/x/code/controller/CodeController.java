@@ -2,18 +2,18 @@ package com.x.code.controller;
 
 import com.x.code.entity.dto.ReturnJson;
 import com.x.code.entity.po.Code;
-import com.x.code.repository.CodeRepository;
 import com.x.code.service.CodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.apache.log4j.Logger;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController("codeController")
 @RequestMapping(value = "/code")
-public class CodeController extends BaseController{
+public class CodeController{
 
     private static Logger logger = Logger.getLogger(CodeController.class);
 
@@ -25,33 +25,47 @@ public class CodeController extends BaseController{
         return ReturnJson.success("获取数据成功").putData("list","");
     }
 
-    @GetMapping("/allList")
+    /**
+     * 获取所有数据
+     * @return
+     */
+    @RequestMapping("/allList")
     public ReturnJson allList(){
         List<Code> list = codeService.allList();
         return ReturnJson.success("获取数据成功").putData("list",list);
     }
 
-    @RequestMapping("/info")
-    public ReturnJson detail(){
-        Code code = codeService.findById(Long.valueOf("1"));
-        return ReturnJson.success("获取数据成功").putData("info",code);
+    @RequestMapping("/detail")
+    public ReturnJson detail(@RequestParam(value = "id",required = true) Long id){
+        Optional<Code> result = codeService.findById(id);
+        if(!result.isPresent()){
+            return ReturnJson.error("获取数据失败");
+        }
+        if(result.get().getIsDel() != 0){
+            return ReturnJson.error("数据已被删除");
+        }
+        return ReturnJson.success("获取数据成功").putData("detail",result.get());
     }
 
-    @GetMapping("/add")
-    public ReturnJson add(){
-        codeService.add("1","2",Long.valueOf("0"));
-        return ReturnJson.success("添加数据成功").putData("list","");
+    @RequestMapping("/add")
+    public ReturnJson add(
+            @RequestParam(value = "codeDefine",required = true) String codeDefine,
+            @RequestParam(value = "codeItem",required = true) String codeItem,
+            @RequestParam(value = "parentId",required = true) Long parentId){
+        codeService.add(codeDefine,codeItem,parentId);
+        return ReturnJson.success("添加数据成功");
     }
 
-    @GetMapping("/update")
-    public ReturnJson update(){
-        codeService.update(Long.valueOf("1"),"aa","AA");
-        return ReturnJson.success("修改数据成功").putData("list","");
+    @RequestMapping("/update")
+    public ReturnJson update(@RequestParam(value = "id",required = true) Long id,
+                             @RequestParam(value = "codeDefine",required = true) String codeDefine,
+                             @RequestParam(value = "codeItem",required = true) String codeItem){
+        codeService.update(id,codeDefine,codeItem);
+        return ReturnJson.success("修改数据成功");
     }
 
      @RequestMapping("/delete")
-    public ReturnJson delete(){
-        Long id = Long.valueOf("1");
+    public ReturnJson delete(@RequestParam(value = "id",required = true) Long id){
         codeService.delete(id);
         return ReturnJson.success("删除成功");
     }

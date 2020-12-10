@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CodeService {
@@ -16,11 +17,12 @@ public class CodeService {
     private CodeRepository codeRepository;
 
     public List<Code> allList(){
-        return codeRepository.findByIsDel(Long.valueOf("0"));
+        return codeRepository.findByIsDel(Byte.valueOf("0"));
     }
 
-    public Code findById(Long id){
-        return codeRepository.findById(id).get();
+    public Optional<Code> findById(Long id){
+        Optional<Code> result = codeRepository.findById(id);
+        return result;
     }
 
     @Transactional
