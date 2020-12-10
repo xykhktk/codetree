@@ -21,9 +21,10 @@ public class CodeController{
     @Autowired
     private CodeService codeService;
 
-    @GetMapping("/list")
-    public ReturnJson list(){
-        return ReturnJson.success("获取数据成功").putData("list","");
+    @RequestMapping("/list")
+    public ReturnJson list(@RequestParam(value = "parentId",required = true) Long id){
+        List<Code> list = codeService.getListByParentId(id);
+        return ReturnJson.success("获取数据成功").putData("list",list);
     }
 
     /**
@@ -31,7 +32,7 @@ public class CodeController{
      * @return
      */
     @RequestMapping("/tree")
-    public ReturnJson allList(){
+    public ReturnJson tree(){
         List<CodeTreeNode> tree = codeService.codeTree();
         return ReturnJson.success("获取数据成功").putData("tree",tree);
     }
