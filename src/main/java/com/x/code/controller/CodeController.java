@@ -2,6 +2,7 @@ package com.x.code.controller;
 
 import com.x.code.entity.dto.ReturnJson;
 import com.x.code.entity.po.Code;
+import com.x.code.entity.vo.CodeTreeNode;
 import com.x.code.service.CodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,10 +30,10 @@ public class CodeController{
      * 获取所有数据
      * @return
      */
-    @RequestMapping("/allList")
+    @RequestMapping("/tree")
     public ReturnJson allList(){
-        List<Code> list = codeService.allList();
-        return ReturnJson.success("获取数据成功").putData("list",list);
+        List<CodeTreeNode> tree = codeService.codeTree();
+        return ReturnJson.success("获取数据成功").putData("tree",tree);
     }
 
     @RequestMapping("/detail")

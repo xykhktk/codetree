@@ -11,6 +11,8 @@ public interface CodeRepository extends JpaRepository<Code,Long> {
 
     List<Code> findByIsDel(Byte isDel);
 
+    List<Code> findByIsDelAndParentId(Byte isDel,Long parentId);
+
     @Modifying
     @Query("update Code c set c.isDel = 1 where  c.id=?1")
     void softDel(Long id);
