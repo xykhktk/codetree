@@ -58,9 +58,16 @@ public class CodeService {
         return codeRepository.findByIsDelAndParentId(Byte.valueOf("0"),parentId);
     }
 
-    public Optional<Code> findById(Long id){
+    public Code findById(Long id) throws Exception {
         Optional<Code> result = codeRepository.findById(id);
-        return result;
+        if(!result.isPresent()){
+            throw new Exception("数据不存在");
+        }
+        Code code = result.get();
+        if(code.getIsDel() == 1){
+            throw new Exception("数据已被删除");
+        }
+        return code;
     }
 
     @Transactional
